@@ -14,7 +14,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
       $user = User::create([
-        'name' => $request->name,
+        'firstname' => $request->firstname,
+        'lastname' => $request->lastname,
         'email' => $request->email,
         'phone' => $request->phone,
         'password' => bcrypt($request->password),
@@ -24,14 +25,14 @@ class AuthController extends Controller
       return response()->json([
         'access_token' => $token,
         'token_type' => 'bearer'
-      ]);  
+      ]);
     //   return $this->respondWithToken($token);
     }
 
     public function login(Request $request)
     {
       $credentials = $request->only(['email', 'password']);
-      
+
       if (!$token = auth()->attempt($credentials)) {
         return response()->json(['error' => 'Email and Password are not correct'], 401);
       }
@@ -39,7 +40,7 @@ class AuthController extends Controller
       return response()->json([
         'access_token' => $token,
         'token_type' => 'bearer'
-      ]);  
+      ]);
     }
     public function getAuthUser(Request $request)
     {
